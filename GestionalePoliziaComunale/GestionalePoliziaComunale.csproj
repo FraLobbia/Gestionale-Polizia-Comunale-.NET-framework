@@ -129,8 +129,9 @@
     </Compile>
     <Compile Include="Models\Anagrafica.cs" />
     <Compile Include="Models\Connection.cs" />
-    <Compile Include="Models\Violazione.cs" />
     <Compile Include="Models\Verbale.cs" />
+    <Compile Include="Models\Violazione.cs" />
+    <Compile Include="Models\VerbaleDetails.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -301,7 +302,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Violazioni\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

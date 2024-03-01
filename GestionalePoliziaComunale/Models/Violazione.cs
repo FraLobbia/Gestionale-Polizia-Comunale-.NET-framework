@@ -9,9 +9,9 @@ namespace GestionalePoliziaComunale.Models
         public int id_Violazione { get; set; }
         public String descrizione { get; set; }
 
-        public Violazione(int idViolazione, String descrizione)
+        public Violazione(int id_Violazione, String descrizione)
         {
-            this.id_Violazione = idViolazione;
+            this.id_Violazione = id_Violazione;
             this.descrizione = descrizione;
         }
 

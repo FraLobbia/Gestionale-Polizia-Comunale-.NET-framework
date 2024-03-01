@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Web.Mvc;
+
 namespace GestionalePoliziaComunale.Controllers
 {
     public class VerbaleController : Controller
@@ -9,7 +10,7 @@ namespace GestionalePoliziaComunale.Controllers
         // GET: Verbale
         public ActionResult Index()
         {
-            List<Verbale> listaVerbali = new List<Verbale>();
+            List<VerbaleDetails> listaVerbali = new List<VerbaleDetails>();
 
             using (SqlConnection conn = Connection.GetConn())
                 try
@@ -27,7 +28,7 @@ namespace GestionalePoliziaComunale.Controllers
 
                     while (reader.Read())
                     {
-                        Verbale verbale = new Verbale(
+                        VerbaleDetails verbaleDetailed = new VerbaleDetails(
                             idVerbale: reader.GetInt32(reader.GetOrdinal("id_Verbale")),
                             nomeVerbalizzato: reader.GetString(reader.GetOrdinal("Nome")),
                             cognomeVerbalizzato: reader.GetString(reader.GetOrdinal("Cognome")),
@@ -41,7 +42,7 @@ namespace GestionalePoliziaComunale.Controllers
 
 
                         // Aggiungo l'oggetto Verbale alla lista per ogni riga del db
-                        listaVerbali.Add(verbale);
+                        listaVerbali.Add(verbaleDetailed);
                     }
 
                 }
@@ -68,6 +69,8 @@ namespace GestionalePoliziaComunale.Controllers
         // GET: Verbale/Create
         public ActionResult Create()
         {
+            ViewBag.ListaAnagrafica = getAnagrafica();
+            ViewBag.ListaViolazioni = getViolazioni();
             return View();
         }
 
@@ -150,6 +153,92 @@ namespace GestionalePoliziaComunale.Controllers
             {
                 return View();
             }
+        }
+
+        public static List<Anagrafica> getAnagrafica()
+        {
+            List<Anagrafica> listaAnagrafica = new List<Anagrafica>();
+
+            using (SqlConnection conn = Connection.GetConn())
+                try
+                {
+                    conn.Open();
+
+                    // Creo la query per il db
+                    string query = "SELECT * FROM Anagrafica";
+
+                    // Creo il comando per il db
+                    SqlCommand cmd = new SqlCommand(query, conn);
+
+                    // Eseguo il comando e ottengo il risultato
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        Anagrafica anagrafica = new Anagrafica(
+                            id_Anagrafica: reader.GetInt32(reader.GetOrdinal("id_Anagrafica")),
+                            Cognome: reader.GetString(reader.GetOrdinal("Cognome")),
+                            Nome: reader.GetString(reader.GetOrdinal("Nome")),
+                            Indirizzo: reader.GetString(reader.GetOrdinal("Indirizzo")),
+                            Citta: reader.GetString(reader.GetOrdinal("Citta")),
+                            CAP: reader.GetString(reader.GetOrdinal("CAP")),
+                            Cod_Fisc: reader.GetString(reader.GetOrdinal("Cod_Fisc"))
+                            );
+                        // Aggiungo l'oggetto Anagrafica alla lista per ogni riga del db
+                        listaAnagrafica.Add(anagrafica);
+                    }
+                }
+                catch
+                {
+                    return null;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+
+            return listaAnagrafica;
+        }
+
+        public static List<Violazione> getViolazioni()
+        {
+            List<Violazione> listaViolazioni = new List<Violazione>();
+
+            using (SqlConnection conn = Connection.GetConn())
+                try
+                {
+                    conn.Open();
+
+                    // Creo la query per il db
+                    string query = "SELECT * FROM Violazione";
+
+                    // Creo il comando per il db
+                    SqlCommand cmd = new SqlCommand(query, conn);
+
+                    // Eseguo il comando e ottengo il risultato
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        Violazione violazione = new Violazione(
+                            id_Violazione: reader.GetInt32(reader.GetOrdinal("id_Violazione")),
+                            descrizione: reader.GetString(reader.GetOrdinal("descrizione"))
+                            );
+
+                        // Aggiungo l'oggetto Violazione alla lista per ogni riga del db
+                        listaViolazioni.Add(violazione);
+                    }
+                }
+                catch
+                {
+                    return null;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+
+            return listaViolazioni;
         }
     }
 }

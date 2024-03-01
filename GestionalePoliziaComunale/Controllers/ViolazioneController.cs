@@ -31,7 +31,7 @@ namespace GestionalePoliziaComunale.Controllers
                     {
                         // Creo un oggetto Violazione da popolare con i dati del db
                         Violazione violazione = new Violazione(
-                            idViolazione: reader.GetInt32(reader.GetOrdinal("id_Violazione")),
+                            id_Violazione: reader.GetInt32(reader.GetOrdinal("id_Violazione")),
                             descrizione: reader.GetString(reader.GetOrdinal("descrizione"))
                             );
 
