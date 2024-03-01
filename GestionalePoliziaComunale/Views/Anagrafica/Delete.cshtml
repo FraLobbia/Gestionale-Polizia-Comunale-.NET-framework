@@ -1,0 +1,72 @@
+﻿@model GestionalePoliziaComunale.Models.Anagrafica
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Anagrafica</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Cognome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cognome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Indirizzo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Indirizzo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Citta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Citta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CAP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CAP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cod_Fisc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cod_Fisc)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-danger my-3" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

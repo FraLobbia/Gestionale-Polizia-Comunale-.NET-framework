@@ -1,0 +1,63 @@
+﻿@model IEnumerable<GestionalePoliziaComunale.Models.Anagrafica>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1 class="my-3">Elenco persone registrate</h1>
+
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-success my-3" })
+</p>
+<table class="table table-primary table-striped table-bordered">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Cognome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Indirizzo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Citta)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CAP)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cod_Fisc)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cognome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Indirizzo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Citta)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CAP)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Cod_Fisc)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.id_Anagrafica }, new { @class = "text-danger" }) |
+            @Html.ActionLink("Details", "Details", new { id = item.id_Anagrafica }, new { @class = "text-danger" }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.id_Anagrafica }, new { @class = "text-danger" }) 
+        </td>
+    </tr>
+}
+
+</table>

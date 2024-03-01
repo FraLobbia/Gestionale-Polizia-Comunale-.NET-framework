@@ -1,0 +1,66 @@
+﻿@model GestionalePoliziaComunale.Models.Anagrafica
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Anagrafica</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Cognome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cognome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Indirizzo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Indirizzo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Citta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Citta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CAP)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CAP)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cod_Fisc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cod_Fisc)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
