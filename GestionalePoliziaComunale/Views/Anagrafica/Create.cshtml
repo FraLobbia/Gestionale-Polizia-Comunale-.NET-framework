@@ -1,14 +1,14 @@
 ﻿@model GestionalePoliziaComunale.Models.Anagrafica
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Registra Persona";
 }
 
-<h1 class="my-3">Aggiungi una nuova persona</h1>
+<h1>Aggiungi una nuova persona</h1>
 
-<div>
-    @Html.ActionLink("Back to List", "Index", null, new {@class = "btn btn-primary my-3"})
-</div>
+
+@Html.ActionLink("Torna a elenco", "Index", null, new {@class = "btn btn-primary"})
+
 
 @using (Html.BeginForm()) 
 {
@@ -69,7 +69,7 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-success my-3" />
+                <input type="submit" value="Create" class="btn btn-success" />
             </div>
         </div>
     </div>

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Web.Mvc;
-
 namespace GestionalePoliziaComunale.Controllers
 {
     public class ViolazioneController : Controller
@@ -12,51 +11,16 @@ namespace GestionalePoliziaComunale.Controllers
         // GET: Violazioni
         public ActionResult Index()
         {
-            // Creo la lista di oggetti Violazione da popolare con i dati del db
-            List<Violazione> listaViolazioni = new List<Violazione>();
-
-            using (SqlConnection conn = Connection.GetConn())
-                try
-                {
-                    // Apro la connessione al db
-                    conn.Open();
-
-                    SqlCommand cmd = new SqlCommand("SELECT * FROM Violazione", conn);
-
-                    // Eseguo il comando e ottengo il risultato
-                    SqlDataReader reader = cmd.ExecuteReader();
-
-                    // Leggo il risultato
-                    while (reader.Read())
-                    {
-                        // Creo un oggetto Violazione da popolare con i dati del db
-                        Violazione violazione = new Violazione(
-                            id_Violazione: reader.GetInt32(reader.GetOrdinal("id_Violazione")),
-                            descrizione: reader.GetString(reader.GetOrdinal("descrizione"))
-                            );
-
-                        // Aggiungo l'oggetto Violazione alla lista per ogni riga del db
-                        listaViolazioni.Add(violazione);
-                    }
-
-                }
-                catch (Exception ex) // ex è l'oggetto che rappresenta l'eccezione
-                {
-                    Response.Write("Errore");
-                    Response.Write(ex.Message);
-                }
-                finally
-                {
-                    conn.Close(); // Chiudo la connessione al db, NECESSARIO
-                }
-
+            // Ottengo la lista delle violazioni dal metodo getViolazioni
+            List<Violazione> listaViolazioni = getViolazioni();
             return View(listaViolazioni);
         }
 
         // GET: Violazioni/Details/5
         public ActionResult Details(int id)
         {
-            Violazione violazione = Violazione.getViolazioneByID(id);
+            // Ottengo la violazione con l'id specificato dal metodo getViolazioneByID
+            Violazione violazione = getViolazioneByID(id);
             return View(violazione);
         }
 
@@ -70,31 +34,29 @@ namespace GestionalePoliziaComunale.Controllers
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringDB"].ConnectionString.ToString();
-            SqlConnection conn = new SqlConnection(connectionString);
+            using (SqlConnection conn = Connection.GetConn())
+                try
+                {
+                    // Apro la connessione al db
+                    conn.Open();
 
-            try
-            {
-                // Apro la connessione al db
-                conn.Open();
+                    // Creo il comando per l'inserimento
+                    SqlCommand cmd = new SqlCommand("INSERT INTO Violazione (descrizione) VALUES (@descrizione)", conn);
+                    // Aggiungo i parametri al comando
+                    cmd.Parameters.AddWithValue("@descrizione", collection["descrizione"]);
 
-                // Creo il comando per l'inserimento
-                SqlCommand cmd = new SqlCommand("INSERT INTO Violazione (descrizione) VALUES (@descrizione)", conn);
-                // Aggiungo i parametri al comando
-                cmd.Parameters.AddWithValue("@descrizione", collection["descrizione"]);
-
-                // Eseguo il comando
-                cmd.ExecuteNonQuery();
-
-            }
-            catch
-            {
-                return View();
-            }
-            finally
-            {
-                conn.Close(); // Chiudo la connessione al db, NECESSARIO
-            }
+                    // Eseguo il comando
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    // In caso di errore stampo un messaggio di errore nella view che ritorno
+                    Response.Write("Errore: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close(); // Chiudo la connessione al db, NECESSARIO
+                }
 
             // redirect alla pagina Index
             return RedirectToAction("Index");
@@ -103,7 +65,8 @@ namespace GestionalePoliziaComunale.Controllers
         // GET: Violazioni/Edit/5
         public ActionResult Edit(int id)
         {
-            Violazione violazione = Violazione.getViolazioneByID(id);
+            // Ottengo la violazione con l'id specificato dal metodo getViolazioneByID
+            Violazione violazione = getViolazioneByID(id);
             return View(violazione);
         }
 
@@ -117,23 +80,29 @@ namespace GestionalePoliziaComunale.Controllers
             {
                 // Apro la connessione al db
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("UPDATE Violazione SET descrizione = @descrizione WHERE id_Violazione = @id", conn);
+                // Creo il comando per l'aggiornamento
+                SqlCommand cmd = new SqlCommand("UPDATE Violazione SET " +
+                    "descrizione = @descrizione " +
+                    "WHERE id_Violazione = @id", conn);
 
                 // Aggiungo i parametri al comando
                 cmd.Parameters.AddWithValue("@descrizione", collection["descrizione"]);
+
                 // Aggiungo il parametro per la clausola WHERE
                 cmd.Parameters.AddWithValue("@id", id);
+
                 // Eseguo il comando
                 cmd.ExecuteNonQuery();
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                Response.Write("Errore: " + ex.Message);
             }
             finally
             {
                 conn.Close();
             }
+
             // redirect alla pagina Index
             return RedirectToAction("Index");
         }
@@ -141,7 +110,8 @@ namespace GestionalePoliziaComunale.Controllers
         // GET: Violazioni/Delete/5
         public ActionResult Delete(int id)
         {
-            Violazione violazione = Violazione.getViolazioneByID(id);
+            // Ottengo la violazione con l'id specificato dal metodo getViolazioneByID
+            Violazione violazione = getViolazioneByID(id);
             return View(violazione);
         }
 
@@ -149,29 +119,110 @@ namespace GestionalePoliziaComunale.Controllers
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringDB"].ConnectionString.ToString();
-            SqlConnection conn = new SqlConnection(connectionString);
-            try
-            {
-                // Apro la connessione al db
-                conn.Open();
-                // Creo il comando per l'eliminazione
-                SqlCommand cmd = new SqlCommand("DELETE FROM Violazione WHERE id_Violazione = @id", conn);
-                // Aggiungo i parametri al comando
-                cmd.Parameters.AddWithValue("@id", id);
-                // Eseguo il comando
-                cmd.ExecuteNonQuery();
-            }
-            catch
-            {
-                return View();
-            }
-            finally
-            {
-                conn.Close();
-            }
+            using (SqlConnection conn = Connection.GetConn())
+                try
+                {
+                    // Apro la connessione al db
+                    conn.Open();
+                    // Creo il comando per l'eliminazione
+                    SqlCommand cmd = new SqlCommand("DELETE FROM Violazione WHERE id_Violazione = @id", conn);
+                    // Aggiungo i parametri al comando
+                    cmd.Parameters.AddWithValue("@id", id);
+                    // Eseguo il comando
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Response.Write("Errore: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+
             // redirect alla pagina Index
             return RedirectToAction("Index");
+        }
+
+
+        // Metodo per ottenere la lista delle violazioni
+        // Non riceve parametri
+        // Restituisce una lista di violazioni
+        public List<Violazione> getViolazioni()
+        {
+            // Creo la lista di violazioni da popolare successivamente
+            List<Violazione> listaViolazioni = new List<Violazione>();
+
+            using (SqlConnection conn = Connection.GetConn())
+                try
+                {
+                    // Apro la connessione al db
+                    conn.Open();
+
+                    // Creo il comando per l'estrazione dei dati
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM Violazione", conn);
+
+                    // Eseguo il comando
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    // Leggo i dati
+                    while (reader.Read())
+                    {
+                        // Creo un oggetto Violazione da aggiungere alla lista
+                        Violazione SingleViolazione = new Violazione(
+                            id_Violazione: reader.GetInt32(0),
+                            descrizione: reader.GetString(1)
+                            );
+
+                        // Aggiungo l'oggetto alla lista
+                        listaViolazioni.Add(SingleViolazione);
+                    }
+                }
+                catch
+                {
+                    return null; // Restituisco null in caso di errore perchè
+                                 // non posso restituire una lista vuota dal metodo
+                }
+                finally
+                {
+                    conn.Close();
+                }
+
+            // Restituisco la lista
+            return listaViolazioni;
+        }
+
+        // Metodo per ottenere una singola violazione
+        // Riceve un parametro di tipo int
+        // Restituisce un oggetto di tipo Violazione
+        public Violazione getViolazioneByID(int id)
+        {
+            // Creo un oggetto Violazione da restituire
+            Violazione singleViolazione = new Violazione();
+
+            using (SqlConnection conn = Connection.GetConn())
+                try
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM Violazione WHERE id_Violazione = @id", conn);
+                    cmd.Parameters.AddWithValue("@id", id);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        singleViolazione.id_Violazione = reader.GetInt32(0);
+                        singleViolazione.Descrizione = reader.GetString(1);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Response.Write("Errore: " + ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            // Restituisco la violazione
+            return singleViolazione;
         }
     }
 }

@@ -1,10 +1,12 @@
 ﻿@model GestionalePoliziaComunale.Models.Anagrafica
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Modifica";
 }
 
-<h2>Edit</h2>
+<h1>Modifica dati persona</h1>
+
+@Html.ActionLink("Torna a lista", "Index", null, new { @class = "btn btn-primary" })
 
 
 @using (Html.BeginForm())
@@ -12,7 +14,6 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Anagrafica</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -65,15 +66,11 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-warning my-3" />
+                <input type="submit" value="Salva" class="btn btn-warning" />
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

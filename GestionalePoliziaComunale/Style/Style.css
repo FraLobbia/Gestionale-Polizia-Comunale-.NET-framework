@@ -12066,3 +12066,42 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+dt {
+  margin-top: 2rem;
+}
+
+.form-group {
+  margin-top: 2rem;
+}
+
+.btn {
+  margin-block: 2rem;
+}
+
+h1, .h1 {
+  padding-block: 2rem;
+  text-shadow: 2px 3px #7e6b6b;
+  font-weight: bolder;
+  font-size: 4rem;
+}
+
+.table {
+  position: relative;
+}
+
+#imgAnagraficaIndex {
+  height: 200px; /* Imposta l'altezza dell'immagine */
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgb(255, 255, 255)), url("https://www.kibernetes.it/wp-content/uploads/2015/07/ANPR.jpg");
+  background-size: cover; /* Adatta l'immagine alla dimensione del contenitore */
+  background-position: top; /* Posiziona l'immagine al centro */
+}
+
+.table::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 7px;
+  background-image: linear-gradient(to right, green 33.3%, white 33.3%, white 66.6%, red 66.6%);
+}

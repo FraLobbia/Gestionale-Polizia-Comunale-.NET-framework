@@ -299,6 +299,7 @@
     <Content Include="Views\Violazione\Delete.cshtml" />
     <Content Include="Views\Verbale\Index.cshtml" />
     <Content Include="Views\Verbale\Create.cshtml" />
+    <Content Include="Views\Verbale\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,15 +1,18 @@
 ﻿@model IEnumerable<GestionalePoliziaComunale.Models.Anagrafica>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Elenco persone";
 }
 
-<h1 class="my-3">Elenco persone registrate</h1>
+<div id="imgAnagraficaIndex" class="p-2 text-black">
 
-<p>
-    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-success my-3" })
-</p>
-<table class="table table-primary table-striped table-bordered">
+        <h1>Elenco persone registrate</h1>
+        @Html.ActionLink("Registra nuova persona", "Create", null, new { @class = "btn btn-success m-0" })
+
+</div>
+
+
+<table  class="table table-primary table-striped table-bordered">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Cognome)
@@ -32,32 +35,33 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cognome)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nome)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Indirizzo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Citta)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CAP)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Cod_Fisc)
-        </td>
-        <td class="text-center">
-            @Html.ActionLink("Edit", "Edit", new { id = item.id_Anagrafica }, new { @class = "text-danger" }) |
-            @Html.ActionLink("Details", "Details", new { id = item.id_Anagrafica }, new { @class = "text-danger" }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.id_Anagrafica }, new { @class = "text-danger" }) 
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cognome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Indirizzo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Citta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CAP)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cod_Fisc)
+            </td>
+            <td class="text-center">
+                @Html.ActionLink("Modifica", "Edit", new { id = item.id_Anagrafica }, new { @class = "text-danger" }) |
+                @Html.ActionLink("Dettagli", "Details", new { id = item.id_Anagrafica }, new { @class = "text-danger" }) |
+                @Html.ActionLink("Cancella", "Delete", new { id = item.id_Anagrafica }, new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
 
 </table>

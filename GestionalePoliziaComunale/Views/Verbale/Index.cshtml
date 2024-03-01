@@ -18,25 +18,25 @@
             @Html.DisplayNameFor(model => model.cognomeVerbalizzato)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.data_Violazione)
+            @Html.DisplayNameFor(model => model.Data_Violazione)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.data_Trascrizione_Verbale)
+            @Html.DisplayNameFor(model => model.Data_Trascrizione_Verbale)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.indirizzo_Violazione)
+            @Html.DisplayNameFor(model => model.Indirizzo_Violazione)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.tipoViolazione)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.importo)
+            @Html.DisplayNameFor(model => model.Importo)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.decurtamento_Punti)
+            @Html.DisplayNameFor(model => model.Decurtamento_Punti)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.nominativo_Agente)
+            @Html.DisplayNameFor(model => model.Nominativo_Agente)
         </th>
         <th></th>
     </tr>
@@ -50,30 +50,30 @@
             @Html.DisplayFor(modelItem => item.cognomeVerbalizzato)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.data_Violazione)
+            @Html.DisplayFor(modelItem => item.Data_Violazione)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.data_Trascrizione_Verbale)
+            @Html.DisplayFor(modelItem => item.Data_Trascrizione_Verbale)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.indirizzo_Violazione)
+            @Html.DisplayFor(modelItem => item.Indirizzo_Violazione)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.tipoViolazione)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.importo)
+            @Html.DisplayFor(modelItem => item.Importo)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.decurtamento_Punti)
+            @Html.DisplayFor(modelItem => item.Decurtamento_Punti)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.nominativo_Agente)
+            @Html.DisplayFor(modelItem => item.Nominativo_Agente)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            @Html.ActionLink("Edit", "Edit", new { id = item.id_Verbale }, new { @class = "text-danger" }) |
+            @Html.ActionLink("Details", "Details", new { id = item.id_Verbale }, new { @class = "text-danger" }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.id_Verbale }, new { @class = "text-danger" }) 
         </td>
     </tr>
 }

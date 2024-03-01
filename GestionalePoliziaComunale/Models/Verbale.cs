@@ -8,9 +8,11 @@ namespace GestionalePoliziaComunale.Models
         [ScaffoldColumn(false)]
         public int id_Verbale { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "Data Violazione")]
         public DateTime Data_Violazione { get; set; }
 
+        [DataType(DataType.Date)]
         [Display(Name = "Data Trascrizione Verbale")]
         public DateTime Data_Trascrizione_Verbale { get; set; }
 

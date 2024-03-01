@@ -9,9 +9,11 @@ namespace GestionalePoliziaComunale.Models
 
         [Required(ErrorMessage = "Il campo Cognome è obbligatorio")]
         public String Cognome { get; set; }
+
         [Required(ErrorMessage = "Il campo Nome è obbligatorio")]
         public String Nome { get; set; }
 
+        [ScaffoldColumn(false)]
         public String NomeCompleto
         {
             get
@@ -29,6 +31,7 @@ namespace GestionalePoliziaComunale.Models
         [Required(ErrorMessage = "Il campo CAP è obbligatorio")]
         public String CAP { get; set; }
 
+        //[StringLength(16, ErrorMessage = "Il Codice Fiscale deve essere di 16 caratteri")] // todo: commentato per praticità nelle prove
         [Required(ErrorMessage = "Il campo Codice Fiscale è obbligatorio")]
         [Display(Name = "Codice Fiscale")]
         public String Cod_Fisc { get; set; }

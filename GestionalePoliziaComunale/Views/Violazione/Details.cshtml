@@ -1,26 +1,24 @@
 ﻿@model GestionalePoliziaComunale.Models.Violazione
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Dettagli";
 }
 
-<h2>Details</h2>
-
+<h1>Dettagli</h1>
+@Html.ActionLink("Torna a lista", "Index", null, new { @class = "btn btn-primary" })
 <div>
-    <h4>Violazione</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.descrizione)
+            @Html.DisplayNameFor(model => model.Descrizione)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.descrizione)
+            @Html.DisplayFor(model => model.Descrizione)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new {  id = Model.id_Violazione  }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Modifica", "Edit", new { id = Model.id_Violazione },new {@class = "btn btn-warning"})
 </p>
