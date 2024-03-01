@@ -12,53 +12,51 @@ namespace GestionalePoliziaComunale.Controllers
         public ActionResult Index()
         {
 
-            // Connessione al db tramite la stringa di connessione presente nel file Web.config     
-            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringDB"].ConnectionString.ToString();
 
-            // Creo la connessione al db tramite la stringa di connessione 
-            SqlConnection conn = new SqlConnection(connectionString);
 
             List<Anagrafica> listaPersone = new List<Anagrafica>();
-            try
-            {
-                // Apro la connessione al db
-                conn.Open();
 
-                SqlCommand cmd = new SqlCommand("SELECT * FROM Anagrafica", conn);
-
-                // Eseguo il comando e ottengo il risultato
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                // Leggo il risultato
-                while (reader.Read())
+            using (SqlConnection conn = Connection.GetConn())
+                try
                 {
-                    // Leggo i valori delle colonne 
-                    int id_Anagrafica = reader.GetInt32(0);
-                    string Cognome = reader.GetString(1);
-                    string Nome = reader.GetString(2);
-                    string Indirizzo = reader.GetString(3);
-                    string Citta = reader.GetString(4);
-                    string CAP = reader.GetString(5);
-                    string Cod_Fisc = reader.GetString(6);
+                    // Apro la connessione al db
+                    conn.Open();
 
-                    // Creo un oggetto Anagrafica da aggiungere alla lista "listaPersone"
-                    Anagrafica anagrafica = new Anagrafica(id_Anagrafica, Cognome, Nome, Indirizzo, Citta, CAP, Cod_Fisc);
+                    SqlCommand cmd = new SqlCommand("SELECT * FROM Anagrafica", conn);
 
-                    // Aggiungo l'oggetto Anagrafica alla lista per ogni riga del db
-                    listaPersone.Add(anagrafica);
+                    // Eseguo il comando e ottengo il risultato
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    // Leggo il risultato
+                    while (reader.Read())
+                    {
+                        // Creo un oggetto Anagrafica da popolare con i dati del db
+                        Anagrafica anagrafica = new Anagrafica(
+                            id_Anagrafica: reader.GetInt32(reader.GetOrdinal("id_Anagrafica")),
+                            Cognome: reader.GetString(reader.GetOrdinal("Cognome")),
+                            Nome: reader.GetString(reader.GetOrdinal("Nome")),
+                            Indirizzo: reader.GetString(reader.GetOrdinal("Indirizzo")),
+                            Citta: reader.GetString(reader.GetOrdinal("Citta")),
+                            CAP: reader.GetString(reader.GetOrdinal("CAP")),
+                            Cod_Fisc: reader.GetString(reader.GetOrdinal("Cod_Fisc"))
+                            );
+
+                        // Aggiungo l'oggetto Anagrafica alla lista 
+                        listaPersone.Add(anagrafica);
+
+                    }
+
                 }
-
-            }
-            // Gestione dell'eccezione
-            catch (Exception ex) // ex è l'oggetto che rappresenta l'eccezione
-            {
-                Response.Write("Errore");
-                Response.Write(ex.Message);
-            }
-            finally
-            {
-                conn.Close(); // Chiudo la connessione al db, NECESSARIO
-            }
+                // Gestione dell'eccezione
+                catch (Exception ex) // ex è l'oggetto che rappresenta l'eccezione
+                {
+                    Response.Write("Errore");
+                    Response.Write(ex.Message);
+                }
+                finally
+                {
+                    conn.Close(); // Chiudo la connessione al db, NECESSARIO
+                }
 
             return View(listaPersone);
         }
@@ -80,34 +78,33 @@ namespace GestionalePoliziaComunale.Controllers
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
-            string connectionString = ConfigurationManager.ConnectionStrings["ConnectionStringDB"].ConnectionString.ToString();
-            SqlConnection conn = new SqlConnection(connectionString);
-            try
-            {
-                conn.Open();
-                // Creo il comando SQL per l'inserimento dei dati
-                SqlCommand cmd = new SqlCommand("INSERT INTO Anagrafica (Cognome, Nome, Indirizzo, Citta, CAP, Cod_Fisc) VALUES (@Cognome, @Nome, @Indirizzo, @Citta, @CAP, @Cod_Fisc)", conn);
+            using (SqlConnection conn = Connection.GetConn())
+                try
+                {
+                    conn.Open();
+                    // Creo il comando SQL per l'inserimento dei dati
+                    SqlCommand cmd = new SqlCommand("INSERT INTO Anagrafica (Cognome, Nome, Indirizzo, Citta, CAP, Cod_Fisc) VALUES (@Cognome, @Nome, @Indirizzo, @Citta, @CAP, @Cod_Fisc)", conn);
 
-                // Aggiungo i parametri al comando SQL
-                cmd.Parameters.AddWithValue("@Cognome", collection["Cognome"]);
-                cmd.Parameters.AddWithValue("@Nome", collection["Nome"]);
-                cmd.Parameters.AddWithValue("@Indirizzo", collection["Indirizzo"]);
-                cmd.Parameters.AddWithValue("@Citta", collection["Citta"]);
-                cmd.Parameters.AddWithValue("@CAP", collection["CAP"]);
-                cmd.Parameters.AddWithValue("@Cod_Fisc", collection["Cod_Fisc"]);
+                    // Aggiungo i parametri al comando SQL
+                    cmd.Parameters.AddWithValue("@Cognome", collection["Cognome"]);
+                    cmd.Parameters.AddWithValue("@Nome", collection["Nome"]);
+                    cmd.Parameters.AddWithValue("@Indirizzo", collection["Indirizzo"]);
+                    cmd.Parameters.AddWithValue("@Citta", collection["Citta"]);
+                    cmd.Parameters.AddWithValue("@CAP", collection["CAP"]);
+                    cmd.Parameters.AddWithValue("@Cod_Fisc", collection["Cod_Fisc"]);
 
-                // Eseguo il comando SQL
-                cmd.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                Response.Write("Errore");
-                Response.Write(ex.Message);
-            }
-            finally
-            {
-                conn.Close();
-            }
+                    // Eseguo il comando SQL
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Response.Write("Errore");
+                    Response.Write(ex.Message);
+                }
+                finally
+                {
+                    conn.Close();
+                }
             return RedirectToAction("Index");
         }
 

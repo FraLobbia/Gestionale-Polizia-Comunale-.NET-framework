@@ -62,7 +62,7 @@ namespace GestionalePoliziaComunale.Models
                     string Cod_Fisc = reader.GetString(6);
                     Anagrafica anagrafica = new Anagrafica(id_Anagrafica, Cognome, Nome, Indirizzo, Citta, CAP, Cod_Fisc);
 
-                    //Restituisco l'oggetto Anagrafica
+                    // Restituisco l'oggetto Anagrafica
                     return anagrafica;
                 }
                 else
@@ -79,8 +79,6 @@ namespace GestionalePoliziaComunale.Models
             {
                 conn.Close();
             }
-
-
         }
     }
 

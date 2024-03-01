@@ -1,0 +1,81 @@
+﻿@model IEnumerable<GestionalePoliziaComunale.Models.Verbale>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1 class="my-3">Elenco Verbali</h1>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table table-primary table-striped table-bordered">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.nomeVerbalizzato)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.cognomeVerbalizzato)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.data_Violazione)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.data_Trascrizione_Verbale)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.indirizzo_Violazione)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tipoViolazione)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.importo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.decurtamento_Punti)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.nominativo_Agente)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.nomeVerbalizzato)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.cognomeVerbalizzato)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.data_Violazione)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.data_Trascrizione_Verbale)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.indirizzo_Violazione)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tipoViolazione)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.importo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.decurtamento_Punti)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.nominativo_Agente)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

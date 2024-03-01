@@ -1,0 +1,34 @@
+﻿@model IEnumerable<GestionalePoliziaComunale.Models.Violazione>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1 class="my-3">Elenco Violazioni</h1>
+
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-success my-3" })
+</p>
+<table class="table table-primary table-striped table-bordered">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.descrizione)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.descrizione)
+            </td>
+            <td class="text-center">
+                @Html.ActionLink("Edit", "Edit", new { id = item.id_Violazione }, new { @class = "text-danger" }) |
+                @Html.ActionLink("Details", "Details", new { id = item.id_Violazione }, new { @class = "text-danger" }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.id_Violazione }, new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+
+</table>

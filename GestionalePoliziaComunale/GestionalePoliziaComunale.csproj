@@ -122,11 +122,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AnagraficaController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\VerbaleController.cs" />
+    <Compile Include="Controllers\ViolazioneController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Anagrafica.cs" />
-    <Compile Include="Models\TipoViolazione.cs" />
+    <Compile Include="Models\Connection.cs" />
+    <Compile Include="Models\Violazione.cs" />
     <Compile Include="Models\Verbale.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -288,9 +291,17 @@
     <Content Include="Views\Anagrafica\Delete.cshtml" />
     <Content Include="Views\Anagrafica\Edit.cshtml" />
     <Content Include="Views\Anagrafica\Details.cshtml" />
+    <Content Include="Views\Violazione\Index.cshtml" />
+    <Content Include="Views\Violazione\Details.cshtml" />
+    <Content Include="Views\Violazione\Create.cshtml" />
+    <Content Include="Views\Violazione\Edit.cshtml" />
+    <Content Include="Views\Violazione\Delete.cshtml" />
+    <Content Include="Views\Verbale\Index.cshtml" />
+    <Content Include="Views\Verbale\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Violazioni\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
