@@ -1,23 +1,15 @@
 ﻿@model IEnumerable<GestionalePoliziaComunale.Models.VerbaleDetails>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Verbali superiori a 10 punti";
 }
 
-<h1 class="my-3">Elenco Verbali</h1>
+<h1>Verbali superiori a 10 punti</h1>
 
-@Html.ActionLink("Inserisci nuovo verbale", "Create", null, new { @class = "btn btn-success my-3" })
-@Html.ActionLink("> 10 Punti", "VerbaliSuperioriA10Punti", null, new { @class = "btn btn-primary my-3" })
-@Html.ActionLink("> 400 €", "VerbaliSuperioriA400Euro", null, new { @class = "btn btn-primary my-3" })
+@Html.ActionLink("Torna a elenco", "Index", null, new { @class = "btn btn-primary" })
 
 <table class="table table-primary table-striped table-bordered">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.nomeVerbalizzato)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.cognomeVerbalizzato)
-        </th>
         <th>
             @Html.DisplayNameFor(model => model.Data_Violazione)
         </th>
@@ -28,9 +20,6 @@
             @Html.DisplayNameFor(model => model.Indirizzo_Violazione)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.tipoViolazione)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.Importo)
         </th>
         <th>
@@ -39,18 +28,24 @@
         <th>
             @Html.DisplayNameFor(model => model.Nominativo_Agente)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.id_Violazione)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.id_Anagrafica)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NomeCompleto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tipoViolazione)
+        </th>
         <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.nomeVerbalizzato)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.cognomeVerbalizzato)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Data_Violazione)
             </td>
@@ -59,9 +54,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Indirizzo_Violazione)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.tipoViolazione)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Importo)
@@ -73,9 +65,21 @@
                 @Html.DisplayFor(modelItem => item.Nominativo_Agente)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.id_Verbale }, new { @class = "text-danger" }) |
-                @Html.ActionLink("Details", "Details", new { id = item.id_Verbale }, new { @class = "text-danger" }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.id_Verbale }, new { @class = "text-danger" })
+                @Html.DisplayFor(modelItem => item.id_Violazione)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_Anagrafica)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NomeCompleto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.tipoViolazione)
+            </td>
+            <td>
+                @Html.ActionLink("Modifica", "Edit", new { id = item.id_Anagrafica }, new { @class = "btn btn-warning" }) |
+                @Html.ActionLink("Dettagli", "Details", new { id = item.id_Anagrafica }, new { @class = "btn btn-secondary" }) |
+                @Html.ActionLink("Cancella", "Delete", new { id = item.id_Anagrafica }, new { @class = "btn btn-danger" }) |
             </td>
         </tr>
     }

@@ -15,6 +15,20 @@ namespace GestionalePoliziaComunale.Controllers
             return View(listaVerbaliDetailed);
         }
 
+        public ActionResult VerbaliSuperioriA10Punti()
+        {
+            // Ottengo la lista di Verbali di tipo VerbaleDetails (che estende Verbale) con decurtamento punti > 10
+            List<VerbaleDetails> listaVerbaliDetailed = getVerbaliDetailedSuperioriA10Punti();
+            return View(listaVerbaliDetailed);
+        }
+
+        public ActionResult VerbaliSuperioriA400Euro()
+        {
+            // Ottengo la lista di Verbali di tipo VerbaleDetails (che estende Verbale) con importo > 400 euro
+            List<VerbaleDetails> listaVerbaliDetailed = getVerbaliDetailedSuperioriA400Euro();
+            return View(listaVerbaliDetailed);
+        }
+
         // GET: Verbale/Details/5
         public ActionResult Details(int id)
         {
@@ -146,7 +160,7 @@ namespace GestionalePoliziaComunale.Controllers
 
         // Metodo per ottenere la lista di Anagrafica dal db
         // Non riceve nulla
-        // Ritorna una lista di oggetti Anagrafica
+        // Ritorna una lista di oggetti di tipo Anagrafica
         public List<Anagrafica> getAnagrafica()
         {
             // Creo una lista di oggetti Anagrafica da popolare successivamente
@@ -197,7 +211,7 @@ namespace GestionalePoliziaComunale.Controllers
 
         // Metodo per ottenere la lista di Violazioni dal db
         // Non riceve nulla
-        // Ritorna una lista di oggetti Violazione
+        // Ritorna una lista di oggetti di tipo Violazione
         public List<Violazione> getViolazioni()
         {
             List<Violazione> listaViolazioni = new List<Violazione>();
@@ -303,7 +317,7 @@ namespace GestionalePoliziaComunale.Controllers
 
         // Metodo per ottenere un Verbale dal db
         // Riceve un id di tipo int
-        // Ritorna un oggetto VerbaleDetails (che estende Verbale)
+        // Ritorna un oggetto di tipo VerbaleDetails (che estende Verbale)
         public VerbaleDetails getVerbaleDetailedByID(int id)
         {
             // Creo un oggetto VerbaleDetails da popolare successivamente
@@ -367,7 +381,7 @@ namespace GestionalePoliziaComunale.Controllers
 
         // Metodo per ottenere un Verbale dal db
         // Riceve un id di tipo int
-        // Ritorna un oggetto Verbale
+        // Ritorna un oggetto di tipo Verbale
         public Verbale getVerbaleByID(int id)
         {
             // Creo un oggetto Verbale da popolare successivamente
@@ -417,7 +431,7 @@ namespace GestionalePoliziaComunale.Controllers
 
         // Metodo per ottenere la lista di Verbali dal db per una persona
         // Riceve un id di tipo int
-        // Ritorna una lista di oggetti VerbaleDetails (che estende Verbale)
+        // Ritorna una lista di oggetti di tipo VerbaleDetails (che estende Verbale)
         public List<VerbaleDetails> getVerbaliDetailedByPerson(int id)
         {
             // Creo una lista di oggetti Verbale da popolare successivamente
@@ -518,6 +532,131 @@ namespace GestionalePoliziaComunale.Controllers
                     conn.Close();
                 }
             return sommaPunti;
+        }
+
+        // metodo per ottenere la lista di Verbali detailed che superino 10 punti
+        // Non riceve nulla
+        // Ritorna una lista di oggetti di tipo VerbaleDetails (che estende Verbale)
+        public List<VerbaleDetails> getVerbaliDetailedSuperioriA10Punti()
+        {
+            // Creo una lista di oggetti Verbale da popolare successivamente
+            List<VerbaleDetails> listaVerbali = new List<VerbaleDetails>();
+
+            using (SqlConnection conn = Connection.GetConn())
+                try
+                {
+                    conn.Open();
+
+                    // Creo la query per il db
+                    string query = "SELECT V.id_Verbale," +
+                        " A.Nome," +
+                        " A.Cognome," +
+                        " V.Data_Violazione," +
+                        " V.Data_Trascrizione_Verbale," +
+                        " v.Indirizzo_Violazione," +
+                        " v.Nominativo_Agente," +
+                        " v.Importo," +
+                        "v.Decurtamento_Punti " +
+                        "FROM Verbali AS V " +
+                        "INNER JOIN Anagrafica AS A " +
+                        "ON V.id_Anagrafica = A.id_Anagrafica " +
+                        "WHERE V.Decurtamento_Punti > 10";
+
+                    // Creo il comando per il db
+                    SqlCommand cmd = new SqlCommand(query, conn);
+
+                    // Eseguo il comando e ottengo il risultato
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        VerbaleDetails verbaleDetailed = new VerbaleDetails(
+                                    idVerbale: reader.GetInt32(reader.GetOrdinal("id_Verbale")),
+                                    nomeVerbalizzato: reader.GetString(reader.GetOrdinal("Nome")),
+                                    cognomeVerbalizzato: reader.GetString(reader.GetOrdinal("Cognome")),
+                                    dataViolazione: reader.GetDateTime(reader.GetOrdinal("Data_Violazione")),
+                                    dataTrascrizioneVerbale: reader.GetDateTime(reader.GetOrdinal("Data_Trascrizione_Verbale")),
+                                    indirizzoViolazione: reader.GetString(reader.GetOrdinal("Indirizzo_Violazione")),
+                                    nominativoAgente: reader.GetString(reader.GetOrdinal("Nominativo_Agente")),
+                                    importo: reader.GetDecimal(reader.GetOrdinal("Importo")),
+                                    decurtamentoPunti: reader.GetInt32(reader.GetOrdinal("Decurtamento_Punti"))
+                                    );
+                        // Aggiungo l'oggetto Verbale alla lista per ogni riga del db
+                        listaVerbali.Add(verbaleDetailed);
+                    }
+                }
+                catch
+                {
+                    return null; // Ritorno null
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            return listaVerbali;
+        }
+
+        // metodo per ottenere la lista di Verbali detailed che abbiano un importo superiore a 400 euro
+        // Non riceve nulla
+        // Ritorna una lista di oggetti di tipo VerbaleDetails (che estende Verbale)
+        public List<VerbaleDetails> getVerbaliDetailedSuperioriA400Euro()
+        {
+            // Creo una lista di oggetti Verbale da popolare successivamente
+            List<VerbaleDetails> listaVerbali = new List<VerbaleDetails>();
+
+            using (SqlConnection conn = Connection.GetConn())
+                try
+                {
+                    conn.Open();
+
+                    // Creo la query per il db
+                    string query = "SELECT V.id_Verbale," +
+                        " A.Nome," +
+                        " A.Cognome," +
+                        " V.Data_Violazione," +
+                        " V.Data_Trascrizione_Verbale," +
+                        " v.Indirizzo_Violazione," +
+                        " v.Nominativo_Agente," +
+                        " v.Importo," +
+                        "v.Decurtamento_Punti " +
+                        "FROM Verbali AS V " +
+                        "INNER JOIN Anagrafica AS A " +
+                        "ON V.id_Anagrafica = A.id_Anagrafica " +
+                        "WHERE V.Importo > 400" +
+                        "ORDER BY V.Importo";
+
+                    // Creo il comando per il db
+                    SqlCommand cmd = new SqlCommand(query, conn);
+
+                    // Eseguo il comando e ottengo il risultato
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        VerbaleDetails verbaleDetailed = new VerbaleDetails(
+                                idVerbale: reader.GetInt32(reader.GetOrdinal("id_Verbale")),
+                                nomeVerbalizzato: reader.GetString(reader.GetOrdinal("Nome")),
+                                cognomeVerbalizzato: reader.GetString(reader.GetOrdinal("Cognome")),
+                                dataViolazione: reader.GetDateTime(reader.GetOrdinal("Data_Violazione")),
+                                dataTrascrizioneVerbale: reader.GetDateTime(reader.GetOrdinal("Data_Trascrizione_Verbale")),
+                                indirizzoViolazione: reader.GetString(reader.GetOrdinal("Indirizzo_Violazione")),
+                                nominativoAgente: reader.GetString(reader.GetOrdinal("Nominativo_Agente")),
+                                importo: reader.GetDecimal(reader.GetOrdinal("Importo")),
+                                decurtamentoPunti: reader.GetInt32(reader.GetOrdinal("Decurtamento_Punti"))
+                                );
+                        // Aggiungo l'oggetto Verbale alla lista per ogni riga del db
+                        listaVerbali.Add(verbaleDetailed);
+                    }
+                }
+                catch
+                {
+                    return null; // Ritorno null
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            return listaVerbali;
         }
     }
 }
