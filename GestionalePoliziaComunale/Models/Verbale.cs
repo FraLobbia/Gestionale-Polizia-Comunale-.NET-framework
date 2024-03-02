@@ -19,6 +19,7 @@ namespace GestionalePoliziaComunale.Models
         [Display(Name = "Indirizzo Violazione")]
         public string Indirizzo_Violazione { get; set; }
 
+        [DataType(DataType.Currency)]
         public decimal Importo { get; set; }
 
         [Display(Name = "Decurtamento Punti")]
@@ -30,8 +31,13 @@ namespace GestionalePoliziaComunale.Models
         [Display(Name = "Tipo Violazione")]
         public int id_Violazione { get; set; }
 
-        [Display(Name = "Nome Verbalizzato")]
+        [Display(Name = "ID Verbalizzato")]
         public int id_Anagrafica { get; set; }
 
+        public Verbale()
+        {
+        }
     }
+
+
 }

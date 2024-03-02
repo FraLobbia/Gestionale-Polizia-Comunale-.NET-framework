@@ -11,19 +11,22 @@ namespace GestionalePoliziaComunale.Controllers
         public ActionResult Index()
         {
             // Ottengo la lista di Verbali di tipo VerbaleDetails (che estende Verbale)
-            List<VerbaleDetails> listaVerbali = getVerbali();
-            return View(listaVerbali);
+            List<VerbaleDetails> listaVerbaliDetailed = getVerbaliDetailed();
+            return View(listaVerbaliDetailed);
         }
 
         // GET: Verbale/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            // Ottengo un Verbale di tipo VerbaleDetails (che estende Verbale) tramite l'id
+            VerbaleDetails verbaleDetailed = getVerbaleDetailedByID(id);
+            return View(verbaleDetailed);
         }
 
         // GET: Verbale/Create
         public ActionResult Create()
         {
+            // Ottengo le liste di Anagrafica e Violazioni per popolare le dropdownlist
             ViewBag.ListaAnagrafica = getAnagrafica();
             ViewBag.ListaViolazioni = getViolazioni();
             return View();
@@ -31,7 +34,7 @@ namespace GestionalePoliziaComunale.Controllers
 
         // POST: Verbale/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Verbale formVerbale)
         {
             using (SqlConnection conn = Connection.GetConn())
                 try
@@ -43,14 +46,14 @@ namespace GestionalePoliziaComunale.Controllers
                     SqlCommand cmd = new SqlCommand(query, conn);
 
                     // Aggiungo i parametri al comando SQL
-                    cmd.Parameters.AddWithValue("@Data_Violazione", collection["Data_Violazione"]);
-                    cmd.Parameters.AddWithValue("@Indirizzo_Violazione", collection["Indirizzo_Violazione"]);
-                    cmd.Parameters.AddWithValue("@Nominativo_Agente", collection["Nominativo_Agente"]);
-                    cmd.Parameters.AddWithValue("@Data_Trascrizione_Verbale", collection["Data_Trascrizione_Verbale"]);
-                    cmd.Parameters.AddWithValue("@Importo", collection["Importo"]);
-                    cmd.Parameters.AddWithValue("@Decurtamento_Punti", collection["Decurtamento_Punti"]);
-                    cmd.Parameters.AddWithValue("@id_Violazione", collection["id_Violazione"]);
-                    cmd.Parameters.AddWithValue("@id_Anagrafica", collection["id_Anagrafica"]);
+                    cmd.Parameters.AddWithValue("@Data_Violazione", formVerbale.Data_Violazione);
+                    cmd.Parameters.AddWithValue("@Indirizzo_Violazione", formVerbale.Indirizzo_Violazione);
+                    cmd.Parameters.AddWithValue("@Nominativo_Agente", formVerbale.Nominativo_Agente);
+                    cmd.Parameters.AddWithValue("@Data_Trascrizione_Verbale", formVerbale.Data_Trascrizione_Verbale);
+                    cmd.Parameters.AddWithValue("@Importo", formVerbale.Importo);
+                    cmd.Parameters.AddWithValue("@Decurtamento_Punti", formVerbale.Decurtamento_Punti);
+                    cmd.Parameters.AddWithValue("@id_Violazione", formVerbale.id_Violazione);
+                    cmd.Parameters.AddWithValue("@id_Anagrafica", formVerbale.id_Anagrafica);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -71,8 +74,8 @@ namespace GestionalePoliziaComunale.Controllers
         {
             ViewBag.ListaAnagrafica = getAnagrafica();
             ViewBag.ListaViolazioni = getViolazioni();
-            VerbaleDetails verbale = getVerbaleByID(id);
-            return View(verbale);
+            VerbaleDetails verbaleDetailed = getVerbaleDetailedByID(id);
+            return View(verbaleDetailed);
         }
 
         // POST: Verbale/Edit/5
@@ -94,23 +97,51 @@ namespace GestionalePoliziaComunale.Controllers
         // GET: Verbale/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            // Ottengo un Verbale di tipo VerbaleDetails (che estende Verbale) tramite l'id
+            Verbale verbaleDetailed = getVerbaleDetailedByID(id);
+            return View(verbaleDetailed);
         }
 
         // POST: Verbale/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
-            {
-                // TODO: Add delete logic here
+            using (SqlConnection conn = Connection.GetConn())
+                try
+                {
+                    conn.Open();
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+                    // Creo il comando SQL per l'eliminazione dei dati
+                    string query = "DELETE FROM Verbali WHERE id_Verbale = @id";
+
+                    // Creo il comando per il db
+                    SqlCommand cmd = new SqlCommand(query, conn);
+
+                    // Aggiungo il parametro al comando SQL
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+                    return View();
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            // Ritorno alla Index
+            return RedirectToAction("Index");
+        }
+
+        // GET: Verbale/PerPersona/5
+        public ActionResult PerPersona(int id)
+        {
+            // Ottengo la lista di Verbali di tipo VerbaleDetails (che estende Verbale) per una persona tramite l'id
+            List<VerbaleDetails> listaVerbaliDetailed = getVerbaliDetailedByPerson(id);
+            ViewBag.NomeCompleto = getAnagrafica().Find(persona => persona.id_Anagrafica == id).NomeCompleto;
+            ViewBag.SommaPunti = sommaPuntiDecurtati(id);
+            return View(listaVerbaliDetailed);
         }
 
         // Metodo per ottenere la lista di Anagrafica dal db
@@ -211,7 +242,7 @@ namespace GestionalePoliziaComunale.Controllers
         // Metodo per ottenere la lista di Verbali dal db
         // Non riceve nulla
         // Ritorna una lista di oggetti VerbaleDetails (che estende Verbale)
-        public List<VerbaleDetails> getVerbali()
+        public List<VerbaleDetails> getVerbaliDetailed()
         {
             // Creo una lista di oggetti Verbale da popolare successivamente
             List<VerbaleDetails> listaVerbali = new List<VerbaleDetails>();
@@ -273,7 +304,7 @@ namespace GestionalePoliziaComunale.Controllers
         // Metodo per ottenere un Verbale dal db
         // Riceve un id di tipo int
         // Ritorna un oggetto VerbaleDetails (che estende Verbale)
-        public VerbaleDetails getVerbaleByID(int id)
+        public VerbaleDetails getVerbaleDetailedByID(int id)
         {
             // Creo un oggetto VerbaleDetails da popolare successivamente
             VerbaleDetails verbale = new VerbaleDetails();
@@ -334,5 +365,159 @@ namespace GestionalePoliziaComunale.Controllers
             return verbale;
         }
 
+        // Metodo per ottenere un Verbale dal db
+        // Riceve un id di tipo int
+        // Ritorna un oggetto Verbale
+        public Verbale getVerbaleByID(int id)
+        {
+            // Creo un oggetto Verbale da popolare successivamente
+            Verbale verbale = new Verbale();
+
+            using (SqlConnection conn = Connection.GetConn())
+                try
+                {
+                    conn.Open();
+
+                    // Creo la query per il db
+                    string query = "SELECT * FROM Verbali WHERE id_Verbale = @id";
+
+                    // Creo il comando per il db
+                    SqlCommand cmd = new SqlCommand(query, conn);
+
+                    // Aggiungo il parametro al comando SQL
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    // Eseguo il comando e ottengo il risultato
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        verbale.id_Verbale = reader.GetInt32(reader.GetOrdinal("id_Verbale"));
+                        verbale.Data_Violazione = reader.GetDateTime(reader.GetOrdinal("Data_Violazione"));
+                        verbale.Data_Trascrizione_Verbale = reader.GetDateTime(reader.GetOrdinal("Data_Trascrizione_Verbale"));
+                        verbale.Indirizzo_Violazione = reader.GetString(reader.GetOrdinal("Indirizzo_Violazione"));
+                        verbale.Importo = reader.GetDecimal(reader.GetOrdinal("Importo"));
+                        verbale.Decurtamento_Punti = reader.GetInt32(reader.GetOrdinal("Decurtamento_Punti"));
+                        verbale.Nominativo_Agente = reader.GetString(reader.GetOrdinal("Nominativo_Agente"));
+                        verbale.id_Violazione = reader.GetInt32(reader.GetOrdinal("id_Violazione"));
+                        verbale.id_Anagrafica = reader.GetInt32(reader.GetOrdinal("id_Anagrafica"));
+                    }
+                }
+                catch
+                {
+                    return null; // Ritorno null perchè non posso ritornare un oggetto vuoto dal metodo
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            // Ritorno l'oggetto popolato di tipo Verbale
+            return verbale;
+        }
+
+        // Metodo per ottenere la lista di Verbali dal db per una persona
+        // Riceve un id di tipo int
+        // Ritorna una lista di oggetti VerbaleDetails (che estende Verbale)
+        public List<VerbaleDetails> getVerbaliDetailedByPerson(int id)
+        {
+            // Creo una lista di oggetti Verbale da popolare successivamente
+            List<VerbaleDetails> listaVerbali = new List<VerbaleDetails>();
+
+            using (SqlConnection conn = Connection.GetConn())
+                try
+                {
+                    conn.Open();
+
+                    // Creo la query per il db
+                    string query = "SELECT V.id_Verbale," +
+                        " A.Nome," +
+                        " A.Cognome," +
+                        " V.Data_Violazione," +
+                        " V.Data_Trascrizione_Verbale," +
+                        " v.Indirizzo_Violazione," +
+                        " v.Nominativo_Agente," +
+                        " v.Importo," +
+                        "v.Decurtamento_Punti " +
+                        "FROM Verbali AS V " +
+                        "INNER JOIN Anagrafica AS A " +
+                        "ON V.id_Anagrafica = A.id_Anagrafica " +
+                        "WHERE A.id_Anagrafica = @id";
+
+                    // Creo il comando per il db
+                    SqlCommand cmd = new SqlCommand(query, conn);
+
+                    // Aggiungo il parametro al comando SQL
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    // Eseguo il comando e ottengo il risultato
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        VerbaleDetails verbaleDetailed = new VerbaleDetails(
+                                    idVerbale: reader.GetInt32(reader.GetOrdinal("id_Verbale")),
+                                    nomeVerbalizzato: reader.GetString(reader.GetOrdinal("Nome")),
+                                    cognomeVerbalizzato: reader.GetString(reader.GetOrdinal("Cognome")),
+                                    dataViolazione: reader.GetDateTime(reader.GetOrdinal("Data_Violazione")),
+                                    dataTrascrizioneVerbale: reader.GetDateTime(reader.GetOrdinal("Data_Trascrizione_Verbale")),
+                                    indirizzoViolazione: reader.GetString(reader.GetOrdinal("Indirizzo_Violazione")),
+                                    nominativoAgente: reader.GetString(reader.GetOrdinal("Nominativo_Agente")),
+                                    importo: reader.GetDecimal(reader.GetOrdinal("Importo")),
+                                    decurtamentoPunti: reader.GetInt32(reader.GetOrdinal("Decurtamento_Punti"))
+                                    );
+                        // Aggiungo l'oggetto Verbale alla lista per ogni riga del db
+                        listaVerbali.Add(verbaleDetailed);
+                    }
+                }
+                catch
+                {
+                    return null; // Ritorno null perchè non posso ritornare una lista vuota dal metodo
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            return listaVerbali;
+        }
+
+        // Metodo per sommare i punti decurtati per una persona
+        // Riceve un id di tipo int
+        // Ritorna un int che rappresenta la somma dei punti decurtati
+        public int sommaPuntiDecurtati(int id)
+        {
+            int sommaPunti = 0;
+
+            using (SqlConnection conn = Connection.GetConn())
+                try
+                {
+                    conn.Open();
+
+                    // Creo la query per il db
+                    string query = "SELECT SUM(Decurtamento_Punti) AS SommaPunti FROM Verbali WHERE id_Anagrafica = @id";
+
+                    // Creo il comando per il db
+                    SqlCommand cmd = new SqlCommand(query, conn);
+
+                    // Aggiungo il parametro al comando SQL
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    // Eseguo il comando e ottengo il risultato
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        sommaPunti = reader.GetInt32(reader.GetOrdinal("SommaPunti"));
+                    }
+                }
+                catch
+                {
+                    return 0;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            return sommaPunti;
+        }
     }
 }

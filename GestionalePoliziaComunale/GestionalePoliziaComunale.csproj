@@ -300,6 +300,9 @@
     <Content Include="Views\Verbale\Index.cshtml" />
     <Content Include="Views\Verbale\Create.cshtml" />
     <Content Include="Views\Verbale\Edit.cshtml" />
+    <Content Include="Views\Verbale\Details.cshtml" />
+    <Content Include="Views\Verbale\Delete.cshtml" />
+    <Content Include="Views\Verbale\PerPersona.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

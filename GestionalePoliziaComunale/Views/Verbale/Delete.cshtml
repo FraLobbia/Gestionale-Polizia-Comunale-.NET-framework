@@ -1,0 +1,89 @@
+﻿@model GestionalePoliziaComunale.Models.VerbaleDetails
+
+@{
+    ViewBag.Title = "Elimina verbale";
+}
+
+<h1>Elimina verbale</h1>
+
+@Html.ActionLink("Torna a elenco", "Index", null, new { @class = "btn btn-primary" })
+
+<h3>Sei sicuro di voler cancellare questo verbale?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Data_Violazione)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Data_Violazione)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Data_Trascrizione_Verbale)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Data_Trascrizione_Verbale)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Indirizzo_Violazione)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Indirizzo_Violazione)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Importo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Importo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Decurtamento_Punti)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Decurtamento_Punti)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nominativo_Agente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nominativo_Agente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NomeCompleto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NomeCompleto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tipoViolazione)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tipoViolazione)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions">
+            <input type="submit" value="Delete" class="btn btn-danger" />
+        </div>
+    }
+</div>

@@ -28,6 +28,7 @@ namespace GestionalePoliziaComunale.Models
         [Required(ErrorMessage = "Il campo Città è obbligatorio")]
         public String Citta { get; set; }
 
+        [MaxLength(5, ErrorMessage = "Il CAP deve essere di 5 caratteri")]
         [Required(ErrorMessage = "Il campo CAP è obbligatorio")]
         public String CAP { get; set; }
 
@@ -47,6 +48,10 @@ namespace GestionalePoliziaComunale.Models
             this.Citta = Citta;
             this.CAP = CAP;
             this.Cod_Fisc = Cod_Fisc;
+        }
+
+        public Anagrafica()
+        {
         }
     }
 

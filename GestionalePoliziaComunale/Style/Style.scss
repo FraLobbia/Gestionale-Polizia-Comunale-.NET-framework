@@ -4,6 +4,11 @@ dt {
     margin-top: 2rem;
 }
 
+td {
+    @extend .text-center;
+
+}
+
 .form-group {
     margin-top: 2rem;
 }

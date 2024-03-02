@@ -1,0 +1,87 @@
+﻿@model IEnumerable<GestionalePoliziaComunale.Models.VerbaleDetails>
+
+@{
+    ViewBag.Title = "Verbali per persona";
+}
+
+<h1>Elenco verbali per @ViewBag.NomeCompleto</h1>
+<h2>Totale punti decuratiti @ViewBag.SommaPunti</h2>
+@Html.ActionLink("Torna a elenco", "Index", "Anagrafica", null, new { @class = "btn btn-primary" })
+
+<table class="table table-primary table-striped table-bordered">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Data_Violazione)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Data_Trascrizione_Verbale)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Indirizzo_Violazione)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Importo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Decurtamento_Punti)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nominativo_Agente)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.id_Violazione)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.id_Anagrafica)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NomeCompleto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tipoViolazione)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data_Violazione)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data_Trascrizione_Verbale)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Indirizzo_Violazione)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Importo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Decurtamento_Punti)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nominativo_Agente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_Violazione)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.id_Anagrafica)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NomeCompleto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.tipoViolazione)
+            </td>
+            <td>
+                @Html.ActionLink("Modifica", "Edit", new { id = item.id_Verbale }, new { @class = "text-danger" }) |
+                @Html.ActionLink("Dettagli", "Details", new { id = item.id_Verbale }, new { @class = "text-danger" }) |
+                @Html.ActionLink("Elimina", "Delete", new { id = item.id_Verbale }, new { @class = "text-danger" })
+            </td>
+        </tr>
+    }
+
+</table>

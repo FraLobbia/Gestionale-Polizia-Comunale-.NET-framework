@@ -6,13 +6,21 @@ namespace GestionalePoliziaComunale.Models
     public class VerbaleDetails : Verbale
     {
 
-        [Display(Name = "Nome Verbalizzato")]
+        [ScaffoldColumn(false)]
         public string nomeVerbalizzato { get; set; }
 
 
-        [Display(Name = "Cognome Verbalizzato")]
+        [ScaffoldColumn(false)]
         public string cognomeVerbalizzato { get; set; }
 
+        [Display(Name = "Nome Verbalizzato")]
+        public string NomeCompleto
+        {
+            get
+            {
+                return cognomeVerbalizzato + " " + nomeVerbalizzato;
+            }
+        }
 
         [Display(Name = "Tipo Violazione")]
         public string tipoViolazione { get; set; }

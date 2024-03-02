@@ -32,27 +32,29 @@ namespace GestionalePoliziaComunale.Controllers
 
         // POST: Anagrafica/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Anagrafica formAnagrafica)
         {
             using (SqlConnection conn = Connection.GetConn())
                 try
                 {
                     conn.Open();
+
                     // Creo il comando SQL per l'inserimento dei dati
-                    SqlCommand cmd = new SqlCommand("" +
+                    SqlCommand cmd = new SqlCommand(
                         "INSERT INTO Anagrafica (Cognome, Nome, Indirizzo, Citta, CAP, Cod_Fisc) " +
                         "VALUES (@Cognome, @Nome, @Indirizzo, @Citta, @CAP, @Cod_Fisc)", conn);
 
-                    // Aggiungo i parametri al comando SQL
-                    cmd.Parameters.AddWithValue("@Cognome", collection["Cognome"]);
-                    cmd.Parameters.AddWithValue("@Nome", collection["Nome"]);
-                    cmd.Parameters.AddWithValue("@Indirizzo", collection["Indirizzo"]);
-                    cmd.Parameters.AddWithValue("@Citta", collection["Citta"]);
-                    cmd.Parameters.AddWithValue("@CAP", collection["CAP"]);
-                    cmd.Parameters.AddWithValue("@Cod_Fisc", collection["Cod_Fisc"]);
+                    cmd.Parameters.AddWithValue("@Cognome", formAnagrafica.Cognome);
+                    cmd.Parameters.AddWithValue("@Nome", formAnagrafica.Nome);
+                    cmd.Parameters.AddWithValue("@Indirizzo", formAnagrafica.Indirizzo);
+                    cmd.Parameters.AddWithValue("@Citta", formAnagrafica.Citta);
+                    cmd.Parameters.AddWithValue("@CAP", formAnagrafica.CAP);
+                    cmd.Parameters.AddWithValue("@Cod_Fisc", formAnagrafica.Cod_Fisc);
 
                     // Eseguo il comando SQL
                     cmd.ExecuteNonQuery();
+
+                    ViewBag.Message = "Utente Registrato con Successo";
                 }
                 catch (Exception ex)
                 {
@@ -62,8 +64,10 @@ namespace GestionalePoliziaComunale.Controllers
                 {
                     conn.Close();
                 }
+
             // Reindirizzo alla pagina Index
             return RedirectToAction("Index");
+
         }
 
         // GET: Anagrafica/Edit/5
@@ -76,7 +80,7 @@ namespace GestionalePoliziaComunale.Controllers
 
         // POST: Anagrafica/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, Anagrafica formAnagrafica)
         {
             using (SqlConnection conn = Connection.GetConn())
                 try
@@ -95,12 +99,12 @@ namespace GestionalePoliziaComunale.Controllers
                         " WHERE id_Anagrafica = @id", conn);
 
                     // Aggiungo i parametri al comando SQL
-                    cmd.Parameters.AddWithValue("@Cognome", collection["Cognome"]);
-                    cmd.Parameters.AddWithValue("@Nome", collection["Nome"]);
-                    cmd.Parameters.AddWithValue("@Indirizzo", collection["Indirizzo"]);
-                    cmd.Parameters.AddWithValue("@Citta", collection["Citta"]);
-                    cmd.Parameters.AddWithValue("@CAP", collection["CAP"]);
-                    cmd.Parameters.AddWithValue("@Cod_Fisc", collection["Cod_Fisc"]);
+                    cmd.Parameters.AddWithValue("@Cognome", formAnagrafica.Cognome);
+                    cmd.Parameters.AddWithValue("@Nome", formAnagrafica.Nome);
+                    cmd.Parameters.AddWithValue("@Indirizzo", formAnagrafica.Indirizzo);
+                    cmd.Parameters.AddWithValue("@Citta", formAnagrafica.Citta);
+                    cmd.Parameters.AddWithValue("@CAP", formAnagrafica.CAP);
+                    cmd.Parameters.AddWithValue("@Cod_Fisc", formAnagrafica.Cod_Fisc);
                     cmd.Parameters.AddWithValue("@id", id);
 
                     // Eseguo il comando SQL
@@ -154,9 +158,10 @@ namespace GestionalePoliziaComunale.Controllers
                 {
                     conn.Close();
                 }
-            // Reindirizzo alla pagina Index
+            // Reindirizzo alla pagina Index passando un messaggio di errore
             return RedirectToAction("Index");
         }
+
 
         // Metodo per ottenere la lista delle persone
         // Non riceve parametri in ingresso

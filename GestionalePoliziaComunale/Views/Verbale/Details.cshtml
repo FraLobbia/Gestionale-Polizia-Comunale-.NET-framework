@@ -1,0 +1,114 @@
+﻿@model GestionalePoliziaComunale.Models.VerbaleDetails
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>VerbaleDetails</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Data_Violazione)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Data_Violazione)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Data_Trascrizione_Verbale)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Data_Trascrizione_Verbale)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Indirizzo_Violazione)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Indirizzo_Violazione)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Importo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Importo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Decurtamento_Punti)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Decurtamento_Punti)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nominativo_Agente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nominativo_Agente)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.id_Violazione)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_Violazione)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.id_Anagrafica)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_Anagrafica)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.nomeVerbalizzato)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.nomeVerbalizzato)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cognomeVerbalizzato)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cognomeVerbalizzato)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NomeCompleto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NomeCompleto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tipoViolazione)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tipoViolazione)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

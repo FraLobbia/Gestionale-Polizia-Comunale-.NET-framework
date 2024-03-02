@@ -32,7 +32,7 @@ namespace GestionalePoliziaComunale.Controllers
 
         // POST: Violazioni/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Violazione formViolazione)
         {
             using (SqlConnection conn = Connection.GetConn())
                 try
@@ -43,7 +43,8 @@ namespace GestionalePoliziaComunale.Controllers
                     // Creo il comando per l'inserimento
                     SqlCommand cmd = new SqlCommand("INSERT INTO Violazione (descrizione) VALUES (@descrizione)", conn);
                     // Aggiungo i parametri al comando
-                    cmd.Parameters.AddWithValue("@descrizione", collection["descrizione"]);
+                    //cmd.Parameters.AddWithValue("@descrizione", collection["descrizione"]);
+                    cmd.Parameters.AddWithValue("@descrizione", formViolazione.Descrizione);
 
                     // Eseguo il comando
                     cmd.ExecuteNonQuery();
