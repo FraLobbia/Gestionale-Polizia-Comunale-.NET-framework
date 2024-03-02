@@ -4,15 +4,6 @@
     ViewBag.Title = "Elenco persone";
 }
 
-@{ 
-if (ViewBag.Message != null)
-{
-    <div class="alert alert-success" role="alert">
-        @ViewBag.Message
-    </div>
-}
-}
-
 
 <div id="imgAnagraficaIndex" class="p-2 text-black">
 
@@ -22,7 +13,7 @@ if (ViewBag.Message != null)
 </div>
 
 
-<table class="table table-primary table-striped table-bordered">
+<table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Cognome)
@@ -67,9 +58,9 @@ if (ViewBag.Message != null)
                 @Html.DisplayFor(modelItem => item.Cod_Fisc)
             </td>
             <td>
-                @Html.ActionLink("Modifica", "Edit", new { id = item.id_Anagrafica }, new { @class = "btn btn-warning" }) |
-                @Html.ActionLink("Dettagli", "Details", new { id = item.id_Anagrafica }, new { @class = "btn btn-secondary" }) |
-                @Html.ActionLink("Cancella", "Delete", new { id = item.id_Anagrafica }, new { @class = "btn btn-danger" }) |
+                @Html.ActionLink("Modifica", "Edit", new { id = item.id_Anagrafica }, new { @class = "btn btn-warning" }) 
+                @Html.ActionLink("Dettagli", "Details", new { id = item.id_Anagrafica }, new { @class = "btn btn-secondary" }) 
+                @Html.ActionLink("Cancella", "Delete", new { id = item.id_Anagrafica }, new { @class = "btn btn-danger" }) 
              
                 @Html.ActionLink("Totale Verbali", "PerPersona", "Verbale", new { id = item.id_Anagrafica }, new { @class = "btn btn-primary" })
             </td>

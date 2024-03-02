@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<GestionalePoliziaComunale.Models.VerbaleDetails>
 
 @{
-    ViewBag.Title = "VerbaliSuperioriA400Euro";
+    ViewBag.Title = "Verbali superiori a 400 €";
 }
 
 <h1>Verbali superiori a 400 €</h1>
@@ -9,7 +9,7 @@
 @Html.ActionLink("Torna a elenco", "Index", null, new { @class = "btn btn-primary" })
 
 
-<table class="table table-primary table-striped table-bordered">
+<table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Data_Violazione)
@@ -78,9 +78,9 @@
                 @Html.DisplayFor(modelItem => item.tipoViolazione)
             </td>
             <td>
-                @Html.ActionLink("Modifica", "Edit", new { id = item.id_Anagrafica }, new { @class = "btn btn-warning" }) |
-                @Html.ActionLink("Dettagli", "Details", new { id = item.id_Anagrafica }, new { @class = "btn btn-secondary" }) |
-                @Html.ActionLink("Cancella", "Delete", new { id = item.id_Anagrafica }, new { @class = "btn btn-danger" }) |
+                @Html.ActionLink("Modifica", "Edit", new { id = item.id_Anagrafica }, new { @class = "btn btn-warning" }) 
+                @Html.ActionLink("Dettagli", "Details", new { id = item.id_Anagrafica }, new { @class = "btn btn-secondary" }) 
+                @Html.ActionLink("Cancella", "Delete", new { id = item.id_Anagrafica }, new { @class = "btn btn-danger" }) 
             </td>
         </tr>
     }

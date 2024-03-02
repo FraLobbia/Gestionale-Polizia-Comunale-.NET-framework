@@ -8,7 +8,7 @@
 <h2>Totale punti decuratiti @ViewBag.SommaPunti</h2>
 @Html.ActionLink("Torna a elenco", "Index", "Anagrafica", null, new { @class = "btn btn-primary" })
 
-<table class="table table-primary table-striped table-bordered">
+<table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Data_Violazione)
@@ -77,9 +77,9 @@
                 @Html.DisplayFor(modelItem => item.tipoViolazione)
             </td>
             <td>
-                @Html.ActionLink("Modifica", "Edit", new { id = item.id_Verbale }, new { @class = "text-danger" }) |
-                @Html.ActionLink("Dettagli", "Details", new { id = item.id_Verbale }, new { @class = "text-danger" }) |
-                @Html.ActionLink("Elimina", "Delete", new { id = item.id_Verbale }, new { @class = "text-danger" })
+                @Html.ActionLink("Modifica", "Edit", new { id = item.id_Verbale }, new { @class = "btn btn-warning" }) 
+                @Html.ActionLink("Dettagli", "Details", new { id = item.id_Verbale }, new { @class = "btn btn-secondary" }) 
+                @Html.ActionLink("Elimina", "Delete", new { id = item.id_Verbale }, new { @class = "btn btn-danger" })
             </td>
         </tr>
     }
