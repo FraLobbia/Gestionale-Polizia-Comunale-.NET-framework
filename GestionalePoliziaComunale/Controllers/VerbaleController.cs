@@ -71,7 +71,7 @@ namespace GestionalePoliziaComunale.Controllers
 
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (SqlException ex)
                 {
                     return View();
                 }

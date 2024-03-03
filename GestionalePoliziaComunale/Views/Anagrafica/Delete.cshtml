@@ -10,6 +10,12 @@
 
 @Html.ActionLink("Torna a elenco", "Index", null, new { @class = "btn btn-primary" })
 
+@if (ViewBag.msgErrore != null)
+{
+    <div class="alert alert-danger my-3" role="alert">
+        @ViewBag.msgErrore
+    </div>
+}
 
 <div>
     <hr />
@@ -64,11 +70,12 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions">
-            <input type="submit" value="Elimina persona" class="btn btn-danger" /> 
+            <input type="submit" value="Elimina persona" class="btn btn-danger" />
         </div>
     }
 </div>

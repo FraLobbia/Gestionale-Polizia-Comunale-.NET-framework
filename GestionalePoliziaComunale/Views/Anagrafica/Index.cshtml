@@ -12,6 +12,18 @@
 
 </div>
 
+@if (ViewBag.msgErrore != null)
+{
+    <div class="alert alert-danger fw-bold text-danger my-3" role="alert">
+        @ViewBag.msgErrore
+    </div>
+}
+@if (ViewBag.msgSuccess != null)
+{
+    <div class="alert alert-success fw-bold text-success my-3" role="alert">
+        @ViewBag.msgSuccess
+    </div>
+}
 
 <table class="table">
     <tr>
@@ -58,10 +70,10 @@
                 @Html.DisplayFor(modelItem => item.Cod_Fisc)
             </td>
             <td>
-                @Html.ActionLink("Modifica", "Edit", new { id = item.id_Anagrafica }, new { @class = "btn btn-warning" }) 
-                @Html.ActionLink("Dettagli", "Details", new { id = item.id_Anagrafica }, new { @class = "btn btn-secondary" }) 
-                @Html.ActionLink("Cancella", "Delete", new { id = item.id_Anagrafica }, new { @class = "btn btn-danger" }) 
-             
+                @Html.ActionLink("Modifica", "Edit", new { id = item.id_Anagrafica }, new { @class = "btn btn-warning" })
+                @Html.ActionLink("Dettagli", "Details", new { id = item.id_Anagrafica }, new { @class = "btn btn-secondary" })
+                @Html.ActionLink("Cancella", "Delete", new { id = item.id_Anagrafica }, new { @class = "btn btn-danger" })
+
                 @Html.ActionLink("Totale Verbali", "PerPersona", "Verbale", new { id = item.id_Anagrafica }, new { @class = "btn btn-primary" })
             </td>
         </tr>

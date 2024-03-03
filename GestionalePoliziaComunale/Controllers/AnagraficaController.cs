@@ -58,7 +58,9 @@ namespace GestionalePoliziaComunale.Controllers
                 }
                 catch (Exception ex)
                 {
-                    Response.Write("Errore: " + ex.Message);
+                    conn.Close();
+                    ViewBag.msgErrore = "Errore: " + ex.Message;
+                    return View("Create", formAnagrafica);
                 }
                 finally
                 {
@@ -66,7 +68,7 @@ namespace GestionalePoliziaComunale.Controllers
                 }
 
             // Reindirizzo alla pagina Index
-            return RedirectToAction("Index");
+            return View("Index", getAnagrafica()); // passo getAnagrafica() come secondo parametro per aggiornare la lista
 
         }
 
@@ -112,14 +114,18 @@ namespace GestionalePoliziaComunale.Controllers
                 }
                 catch (Exception ex)
                 {
-                    Response.Write("Errore: " + ex.Message);
+                    conn.Close();
+                    ViewBag.msgErrore = "Errore: " + ex.Message;
+                    // retun view con getAnagraficaByID() per aggiornare nuovamente i campi e non visualizzare campi vuoti nel caso di errore
+                    return View("Edit", getAnagraficaByID(id));
                 }
                 finally
                 {
                     conn.Close();
                 }
+            ViewBag.msgSuccess = "Utente " + formAnagrafica.Cognome + " " + formAnagrafica.Nome + " aggiornato con Successo";
             // Reindirizzo alla pagina Index
-            return RedirectToAction("Index");
+            return View("Index", getAnagrafica()); // passo getAnagrafica() come secondo parametro per aggiornare la lista
         }
 
         // GET: Anagrafica/Delete/5
@@ -152,7 +158,10 @@ namespace GestionalePoliziaComunale.Controllers
                 }
                 catch (Exception ex)
                 {
-                    Response.Write("Errore: " + ex.Message);
+                    conn.Close();
+                    ViewBag.msgErrore = "Errore: " + ex.Message;
+                    // return view con getAnagraficaByID() per aggiornare nuovamente i campi e non visualizzare campi vuoti nel caso di errore
+                    return View("Delete", getAnagraficaByID(id));
                 }
                 finally
                 {
@@ -160,6 +169,7 @@ namespace GestionalePoliziaComunale.Controllers
                 }
             // Reindirizzo alla pagina Index passando un messaggio di errore
             return RedirectToAction("Index");
+
         }
 
 
