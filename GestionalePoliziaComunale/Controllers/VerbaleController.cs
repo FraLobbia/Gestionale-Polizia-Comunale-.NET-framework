@@ -7,6 +7,13 @@ namespace GestionalePoliziaComunale.Controllers
 {
     public class VerbaleController : Controller
     {
+        //             _____   _______   _____    ____    _   _    _____ 
+        //    /\      / ____| |__   __| |_   _|  / __ \  | \ | |  / ____|
+        //   /  \    | |         | |      | |   | |  | | |  \| | | (___  
+        //  / /\ \   | |         | |      | |   | |  | | | . ` |  \___ \ 
+        // / ____ \  | |____     | |     _| |_  | |__| | | |\  |  ____) |
+        ///_/    \_\  \_____|    |_|    |_____|  \____/  |_| \_| |_____/ 
+
         // GET: Verbale
         public ActionResult Index()
         {
@@ -50,6 +57,12 @@ namespace GestionalePoliziaComunale.Controllers
         [HttpPost]
         public ActionResult Create(Verbale formVerbale)
         {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.msgErrore = "Errore di validazione";
+                return View();
+            }
+
             using (SqlConnection conn = Connection.GetConn())
                 try
                 {
@@ -73,14 +86,18 @@ namespace GestionalePoliziaComunale.Controllers
                 }
                 catch (SqlException ex)
                 {
+                    conn.Close();
+                    ViewBag.msgErrore = "Errore nell'inserimento del verbale: " + ex.Message;
                     return View();
                 }
                 finally
                 {
                     conn.Close();
                 }
+            // Ritorno alla Index con messaggio di successo
+            ViewBag.msgSuccesso = "Verbale inserito con successo";
+            return View("Index");
 
-            return RedirectToAction("Index");
         }
 
         // GET: Verbale/Edit/5
@@ -136,16 +153,20 @@ namespace GestionalePoliziaComunale.Controllers
 
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (SqlException ex)
                 {
+                    conn.Close();
+                    ViewBag.msgErrore = "Errore nell'eliminazione del verbale: " + ex.Message;
                     return View();
                 }
                 finally
                 {
                     conn.Close();
                 }
-            // Ritorno alla Index
-            return RedirectToAction("Index");
+            // Ritorno alla Index con messaggio di successo
+            ViewBag.msgSuccesso = "Verbale eliminato con successo";
+            return View("Index");
+
         }
 
         // GET: Verbale/PerPersona/5
@@ -157,6 +178,13 @@ namespace GestionalePoliziaComunale.Controllers
             ViewBag.SommaPunti = sommaPuntiDecurtati(id);
             return View(listaVerbaliDetailed);
         }
+
+        // __  __   ______   _______    ____    _____    _____ 
+        //|  \/  | |  ____| |__   __|  / __ \  |  __ \  |_   _|
+        //| \  / | | |__       | |    | |  | | | |  | |   | |  
+        //| |\/| | |  __|      | |    | |  | | | |  | |   | |  
+        //| |  | | | |____     | |    | |__| | | |__| |  _| |_ 
+        //|_|  |_| |______|    |_|     \____/  |_____/  |_____|
 
         // Metodo per ottenere la lista di Anagrafica dal db
         // Non riceve nulla
@@ -657,6 +685,24 @@ namespace GestionalePoliziaComunale.Controllers
                     conn.Close();
                 }
             return listaVerbali;
+        }
+
+        // metodo per ottenere nome completo da id
+        // Riceve un id di tipo int e una lista di Anagrafica
+        // Ritorna una stringa con il nome completo da inserire nella dropdownlist
+        public string getNomeCompletoByID(int id, List<Anagrafica> listaAnagrafica)
+        {
+            string nomeCompleto = "";
+
+            listaAnagrafica.ForEach(persona =>
+            {
+                if (persona.id_Anagrafica == id)
+                {
+                    nomeCompleto = persona.NomeCompleto;
+                }
+            });
+
+            return nomeCompleto;
         }
     }
 }

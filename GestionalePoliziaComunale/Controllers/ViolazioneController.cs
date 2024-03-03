@@ -8,6 +8,12 @@ namespace GestionalePoliziaComunale.Controllers
 {
     public class ViolazioneController : Controller
     {
+        //             _____   _______   _____    ____    _   _    _____ 
+        //    /\      / ____| |__   __| |_   _|  / __ \  | \ | |  / ____|
+        //   /  \    | |         | |      | |   | |  | | |  \| | | (___  
+        //  / /\ \   | |         | |      | |   | |  | | | . ` |  \___ \ 
+        // / ____ \  | |____     | |     _| |_  | |__| | | |\  |  ____) |
+        ///_/    \_\  \_____|    |_|    |_____|  \____/  |_| \_| |_____/ 
         // GET: Violazioni
         public ActionResult Index()
         {
@@ -144,6 +150,14 @@ namespace GestionalePoliziaComunale.Controllers
             // redirect alla pagina Index
             return RedirectToAction("Index");
         }
+
+
+        // __  __   ______   _______    ____    _____    _____ 
+        //|  \/  | |  ____| |__   __|  / __ \  |  __ \  |_   _|
+        //| \  / | | |__       | |    | |  | | | |  | |   | |  
+        //| |\/| | |  __|      | |    | |  | | | |  | |   | |  
+        //| |  | | | |____     | |    | |__| | | |__| |  _| |_ 
+        //|_|  |_| |______|    |_|     \____/  |_____/  |_____|
 
 
         // Metodo per ottenere la lista delle violazioni

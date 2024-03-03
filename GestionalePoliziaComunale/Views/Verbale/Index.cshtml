@@ -2,9 +2,23 @@
 
 @{
     ViewBag.Title = "Index";
+   
 }
 
 <h1 class="my-3">Elenco Verbali</h1>
+
+@if (ViewBag.msgErrore != null)
+{
+    <div class="alert alert-danger fw-bold text-danger my-3" role="alert">
+        @ViewBag.msgErrore
+    </div>
+}
+@if (ViewBag.msgSuccess != null)
+{
+    <div class="alert alert-success fw-bold text-success my-3" role="alert">
+        @ViewBag.msgSuccess
+    </div>
+}
 
 @Html.ActionLink("Inserisci nuovo verbale", "Create", null, new { @class = "btn btn-success my-3" })
 @Html.ActionLink("Visualizza verbali > 10 Punti", "VerbaliSuperioriA10Punti", null, new { @class = "btn btn-primary my-3" })
@@ -73,8 +87,8 @@
                 @Html.DisplayFor(modelItem => item.Nominativo_Agente)
             </td>
             <td>
-                @Html.ActionLink("Modifica", "Edit", new { id = item.id_Verbale }, new { @class = "btn btn-warning" }) 
-                @Html.ActionLink("Dettagli", "Details", new { id = item.id_Verbale }, new { @class = "btn btn-secondary" }) 
+                @Html.ActionLink("Modifica", "Edit", new { id = item.id_Verbale }, new { @class = "btn btn-warning" })
+                @Html.ActionLink("Dettagli", "Details", new { id = item.id_Verbale }, new { @class = "btn btn-secondary" })
                 @Html.ActionLink("Elimina", "Delete", new { id = item.id_Verbale }, new { @class = "btn btn-danger" })
             </td>
         </tr>

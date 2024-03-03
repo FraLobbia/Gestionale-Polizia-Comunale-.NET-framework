@@ -8,6 +8,13 @@ namespace GestionalePoliziaComunale.Controllers
 {
     public class AnagraficaController : Controller
     {
+        //             _____   _______   _____    ____    _   _    _____ 
+        //    /\      / ____| |__   __| |_   _|  / __ \  | \ | |  / ____|
+        //   /  \    | |         | |      | |   | |  | | |  \| | | (___  
+        //  / /\ \   | |         | |      | |   | |  | | | . ` |  \___ \ 
+        // / ____ \  | |____     | |     _| |_  | |__| | | |\  |  ____) |
+        ///_/    \_\  \_____|    |_|    |_____|  \____/  |_| \_| |_____/ 
+
         // GET: Anagrafica
         public ActionResult Index()
         {
@@ -34,6 +41,12 @@ namespace GestionalePoliziaComunale.Controllers
         [HttpPost]
         public ActionResult Create(Anagrafica formAnagrafica)
         {
+            // Controllo se i dati inseriti sono validi (es. non vuoti) 
+            if (!ModelState.IsValid)
+            {
+                return View("Create", formAnagrafica); // restituisco la view con i dati inseriti
+            }
+
             using (SqlConnection conn = Connection.GetConn())
                 try
                 {
@@ -67,7 +80,8 @@ namespace GestionalePoliziaComunale.Controllers
                     conn.Close();
                 }
 
-            // Reindirizzo alla pagina Index
+            // Restituisco la view Index con messaggio di successo
+            ViewBag.msgSuccess = "Utente " + formAnagrafica.Cognome + " " + formAnagrafica.Nome + " registrato con Successo";
             return View("Index", getAnagrafica()); // passo getAnagrafica() come secondo parametro per aggiornare la lista
 
         }
@@ -84,6 +98,12 @@ namespace GestionalePoliziaComunale.Controllers
         [HttpPost]
         public ActionResult Edit(int id, Anagrafica formAnagrafica)
         {
+            // Controllo se i dati inseriti sono validi (es. non vuoti)
+            if (!ModelState.IsValid)
+            {
+                return View("Edit", getAnagraficaByID(id)); // restituisco la view con i dati inseriti
+            }
+
             using (SqlConnection conn = Connection.GetConn())
                 try
                 {
@@ -167,10 +187,19 @@ namespace GestionalePoliziaComunale.Controllers
                 {
                     conn.Close();
                 }
-            // Reindirizzo alla pagina Index passando un messaggio di errore
-            return RedirectToAction("Index");
+            // Restituisco la view Index con messaggio di successo
+            ViewBag.msgSuccess = "Utente eliminato con Successo";
+            return View("Index");
 
         }
+
+
+        // __  __   ______   _______    ____    _____    _____ 
+        //|  \/  | |  ____| |__   __|  / __ \  |  __ \  |_   _|
+        //| \  / | | |__       | |    | |  | | | |  | |   | |  
+        //| |\/| | |  __|      | |    | |  | | | |  | |   | |  
+        //| |  | | | |____     | |    | |__| | | |__| |  _| |_ 
+        //|_|  |_| |______|    |_|     \____/  |_____/  |_____|
 
 
         // Metodo per ottenere la lista delle persone

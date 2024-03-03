@@ -6,6 +6,13 @@
 
 <h1>Crea un nuovo Verbale</h1>
 
+@if (ViewBag.msgErrore != null)
+{
+    <div class="alert alert-danger fw-bold text-danger my-3" role="alert">
+        @ViewBag.msgErrore
+    </div>
+}
+
 @Html.ActionLink("Torna a elenco", "Index", null, new { @class = "btn btn-primary" })
 
 @using (Html.BeginForm())
@@ -75,7 +82,12 @@
         <div class="form-group">
             @Html.LabelFor(model => model.id_Anagrafica, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.id_Anagrafica, new SelectList(ViewBag.ListaAnagrafica, "id_Anagrafica", "NomeCompleto"), new { @class = "form-control" })
+                @Html.DropDownListFor(
+            model => model.id_Anagrafica,
+            new SelectList(ViewBag.ListaAnagrafica, "id_Anagrafica", "NomeCompleto"),
+            new { @class = "form-control", @value = "Son Goku" }
+        )
+             
                 @Html.ValidationMessageFor(model => model.id_Anagrafica, "", new { @class = "text-danger" })
             </div>
         </div>
